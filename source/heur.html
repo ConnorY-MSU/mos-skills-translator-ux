@@ -1,0 +1,33 @@
+<!doctype html><meta charset=utf-8><style>
+body{margin:0;background:#fbfaf5;font-family:system-ui,sans-serif;width:1340px;color:#1b1f2a}
+h1{margin:22px 30px 2px;font-size:26px;color:#14213d}p.sub{margin:0 30px 14px;color:#5b6372}
+.row{display:flex;gap:30px;padding:0 30px;justify-content:space-between}
+.s{position:relative;width:390px;height:844px;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,.25);flex:none}
+.s img{width:390px;display:block}
+.m{position:absolute;width:30px;height:30px;border-radius:50%;background:#d6282b;color:#fff;font-weight:800;font-size:14px;display:grid;place-items:center;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.5);transform:translate(-50%,-50%)}
+.cap{text-align:center;font-weight:700;margin:10px 0 0;color:#14213d}
+.col{width:390px}
+.leg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 20px;padding:20px 30px 26px;font-size:14px}
+.leg div{display:flex;gap:8px;align-items:flex-start;line-height:1.3}.leg b.n{flex:none;width:24px;height:24px;border-radius:50%;background:#d6282b;color:#fff;display:grid;place-items:center;font-size:12px}
+</style>
+<h1>Usability heuristics, annotated on the prototype</h1><p class=sub>Red numbers match Nielsen's 10 heuristics. Each screen shows only the heuristics visible on it; all 10 appear across the set.</p>
+<div class=row>
+<div class=col><div class=s><img src=../assets/proto_error.png>
+<span class=m style="left:200px;top:72px">1</span><span class=m style="left:358px;top:233px">6</span><span class=m style="left:28px;top:30px">3</span><span class=m style="left:358px;top:30px">10</span><span class=m style="left:365px;top:568px">9</span><span class=m style="left:365px;top:790px">4</span></div><p class=cap>Step 2: Duties (error state)</p></div>
+<div class=col><div class=s><img src=../assets/proto_why.png>
+<span class=m style="left:70px;top:177px">1</span><span class=m style="left:14px;top:258px">2</span><span class=m style="left:36px;top:358px">7</span><span class=m style="left:241px;top:358px">10</span><span class=m style="left:240px;top:410px">3</span><span class=m style="left:376px;top:258px">8</span></div><p class=cap>Results: resume tab</p></div>
+<div class=col><div class=s><img src=../assets/proto_safe.png>
+<span class=m style="left:28px;top:30px">3</span><span class=m style="left:376px;top:215px">5</span><span class=m style="left:365px;top:322px">5</span><span class=m style="left:200px;top:500px">8</span><span class=m style="left:365px;top:795px">4</span></div><p class=cap>Step 3: Sensitivity</p></div>
+</div>
+<div class=leg>
+<div><b class=n>1</b>Visibility of system status: step bar, progress label, ATS score</div>
+<div><b class=n>2</b>Match with real world: Marine duty wording next to civilian output</div>
+<div><b class=n>3</b>User control: back on every screen, Remove with Undo</div>
+<div><b class=n>4</b>Consistency: same header, bar, and primary button everywhere</div>
+<div><b class=n>5</b>Error prevention: warning and classification-safe toggle</div>
+<div><b class=n>6</b>Recognition over recall: tap chips, no typing</div>
+<div><b class=n>7</b>Flexibility: one-tap Copy, editable lines, Continue saved work</div>
+<div><b class=n>8</b>Minimalist design: one question per screen, detail on demand</div>
+<div><b class=n>9</b>Error recovery: plain-language message says what to do</div>
+<div><b class=n>10</b>Help: "?" on every screen and "Why this works"</div>
+</div>

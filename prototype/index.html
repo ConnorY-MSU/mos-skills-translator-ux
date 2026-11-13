@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MOS Translator Prototype</title>
+<style>
+:root{
+  --navy:#14213d; --navy2:#22345c; --amber:#f2b134; --amber-d:#c98a0a;
+  --bg:#f6f4ef; --card:#ffffff; --ink:#1b1f2a; --mute:#5b6372; --line:#e1ddd2;
+  --ok:#2f7d4f; --err:#b3261e;
+}
+*{box-sizing:border-box;margin:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:#cfd3db;color:var(--ink);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
+.phone{width:390px;height:844px;background:var(--bg);border-radius:36px;border:10px solid #0b1020;overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+body.shot{background:var(--bg);padding:0;display:block}
+body.shot .phone{border:0;border-radius:0;box-shadow:none;width:390px;height:844px}
+.top{height:56px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 8px;background:var(--navy);color:#fff}
+.top h1{font-size:16px;font-weight:600;letter-spacing:.2px}
+.icon-btn{width:48px;height:48px;border:0;background:transparent;color:#fff;font-size:20px;border-radius:12px;cursor:pointer}
+.icon-btn:focus-visible,.btn:focus-visible,.chip:focus-visible,.card-opt:focus-visible,.tab:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.icon-btn.hidden{visibility:hidden}
+.stepper{display:flex;gap:6px;padding:12px 20px 0;flex:none}
+.stepper i{flex:1;height:6px;border-radius:3px;background:var(--line)}
+.stepper i.on{background:var(--amber-d)}
+.steplabel{padding:8px 20px 0;font-size:13px;color:var(--mute);flex:none}
+.screen{display:none;flex:1;flex-direction:column;overflow:hidden}
+.screen.active{display:flex}
+.body{flex:1;overflow-y:auto;padding:16px 20px 12px}
+.foot{flex:none;padding:12px 20px 20px;background:linear-gradient(to top,var(--bg) 70%,transparent)}
+h2{font-size:24px;line-height:1.2;margin-bottom:8px;color:var(--navy)}
+p.lead{color:var(--mute);font-size:15px;line-height:1.45;margin-bottom:16px}
+.btn{width:100%;min-height:56px;border-radius:14px;border:0;font-size:17px;font-weight:700;cursor:pointer;background:var(--amber);color:var(--navy)}
+.btn:active{transform:scale(.98)}
+.btn[disabled]{background:#e8e4d8;color:#8b8f99;cursor:not-allowed}
+.btn.ghost{background:transparent;border:2px solid var(--navy);color:var(--navy);min-height:52px;margin-top:10px}
+.card-opt{display:flex;align-items:center;gap:12px;width:100%;min-height:64px;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:10px;text-align:left;font-size:16px;cursor:pointer;color:var(--ink)}
+.card-opt b{display:block;color:var(--navy)}
+.card-opt small{color:var(--mute);font-size:13px}
+.card-opt .code{flex:none;width:52px;height:40px;border-radius:8px;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:700;font-size:14px}
+.card-opt.sel{border-color:var(--amber-d);background:#fff8e6}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.chip{min-height:48px;padding:0 16px;border-radius:24px;border:2px solid var(--line);background:var(--card);font-size:15px;cursor:pointer;color:var(--ink)}
+.chip.sel{background:var(--navy);color:#fff;border-color:var(--navy)}
+.chip.duty{display:block;margin-bottom:8px;border-radius:14px;text-align:left;padding:10px 14px;width:100%;line-height:1.3}
+.label{font-size:13px;font-weight:700;color:var(--mute);text-transform:uppercase;letter-spacing:.6px;margin:14px 0 8px}
+.err{color:var(--err);font-size:14px;margin:6px 0 0;display:none}
+.err.show{display:block}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.stepbtn{width:48px;height:48px;border-radius:12px;border:2px solid var(--line);background:var(--card);font-size:22px;cursor:pointer}
+.num{font-size:28px;font-weight:700;min-width:44px;text-align:center;color:var(--navy)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.switch{display:flex;align-items:center;gap:14px;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:14px;cursor:pointer;width:100%;text-align:left;font-size:16px;min-height:64px}
+.switch .knob{flex:none;width:52px;height:30px;border-radius:15px;background:#c9c5b8;position:relative;transition:.15s}
+.switch .knob:after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:.15s}
+.switch.on{border-color:var(--amber-d);background:#fff8e6}
+.switch.on .knob{background:var(--ok)}
+.switch.on .knob:after{left:25px}
+.note{font-size:13.5px;color:var(--mute);line-height:1.4;margin-top:10px}
+.hero{background:var(--navy);color:#fff;padding:28px 24px 24px;flex:none}
+.hero .mark{display:inline-block;background:var(--amber);color:var(--navy);font-weight:800;border-radius:8px;padding:4px 10px;letter-spacing:1px;font-size:13px;margin-bottom:14px}
+.hero h2{color:#fff;font-size:30px;margin-bottom:10px}
+.hero p{color:#cfd6e6;font-size:16px;line-height:1.45}
+.resume-card{background:#fff8e6;border:2px solid var(--amber);border-radius:14px;padding:14px;margin-top:6px}
+.resume-card .meter{height:8px;background:#ead9a8;border-radius:4px;margin:8px 0}
+.resume-card .meter i{display:block;height:100%;background:var(--amber-d);border-radius:4px}
+/* results */
+.tabs{display:flex;flex:none;background:var(--card);border-bottom:1px solid var(--line)}
+.tab{flex:1;min-height:52px;border:0;background:transparent;font-size:15px;font-weight:600;color:var(--mute);border-bottom:3px solid transparent;cursor:pointer}
+.tab.on{color:var(--navy);border-bottom-color:var(--amber-d)}
+.pane{display:none}.pane.on{display:block}
+.score{display:flex;align-items:center;gap:14px;background:var(--navy);color:#fff;border-radius:16px;padding:14px;margin-bottom:14px}
+.ring{--p:80;width:76px;height:76px;border-radius:50%;background:conic-gradient(var(--amber) calc(var(--p)*1%),#35507f 0);display:grid;place-items:center;flex:none}
+.ring span{width:58px;height:58px;border-radius:50%;background:var(--navy);display:grid;place-items:center;font-weight:800;font-size:20px}
+.score small{color:#cfd6e6;font-size:13px;line-height:1.35;display:block}
+.bullet{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.bullet .mil{font-size:12.5px;color:var(--mute);margin-bottom:6px}
+.bullet .civ{font-size:15.5px;line-height:1.45;color:var(--ink)}
+.bullet .acts{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.mini{min-height:44px;padding:0 14px;border-radius:10px;border:1.5px solid var(--navy);background:#fff;color:var(--navy);font-weight:600;font-size:14px;cursor:pointer}
+.why{display:none;margin-top:10px;background:#eef3fb;border-radius:10px;padding:10px 12px;font-size:13.5px;line-height:1.4;color:var(--navy2)}
+.why.show{display:block}
+.kw{display:inline-block;background:#e8eefb;color:var(--navy);border-radius:8px;padding:6px 10px;margin:0 6px 6px 0;font-size:13.5px;font-weight:600}
+.banner{background:#e9f4ee;border:1px solid #b5d8c3;color:#1d5a37;border-radius:12px;padding:10px 12px;font-size:13.5px;line-height:1.4;margin-bottom:12px}
+.job{display:flex;align-items:center;justify-content:space-between;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:10px}
+.job b{color:var(--navy)}.job small{color:var(--mute);display:block;font-size:13px;margin-top:2px}
+.job .pct{font-weight:800;color:var(--ok);font-size:18px}
+.star{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.star h3{font-size:16px;color:var(--navy);margin-bottom:8px}
+.star dl{display:grid;grid-template-columns:28px 1fr;gap:6px 8px;font-size:14.5px;line-height:1.4}
+.star dt{font-weight:800;color:var(--amber-d)}
+.star dd{margin:0}
+.star .fill{border:1.5px dashed var(--amber-d);border-radius:8px;padding:6px 8px;color:var(--mute);background:#fffdf5}
+/* sheet + toast */
+.sheet-bg{position:absolute;inset:0;background:rgba(10,15,30,.5);display:none;align-items:flex-end;z-index:20}
+.sheet-bg.show{display:flex}
+.sheet{background:var(--bg);width:100%;border-radius:22px 22px 0 0;padding:20px 20px 24px}
+.sheet h3{font-size:20px;color:var(--navy);margin-bottom:8px}
+.sheet p{color:var(--mute);font-size:15px;line-height:1.45;margin-bottom:10px}
+.toast{position:absolute;left:16px;right:16px;bottom:24px;background:var(--navy);color:#fff;border-radius:12px;padding:12px 14px;display:none;align-items:center;justify-content:space-between;z-index:30;font-size:14.5px}
+.toast.show{display:flex}
+.toast button{background:transparent;border:0;color:var(--amber);font-weight:800;font-size:15px;min-height:44px;padding:0 8px;cursor:pointer}
+.skel{height:16px;border-radius:8px;background:linear-gradient(90deg,#e8e4d8 25%,#f3f0e6 50%,#e8e4d8 75%);background-size:200% 100%;animation:sh 1s infinite;margin-bottom:12px}
+@keyframes sh{to{background-position:-200% 0}}
+.center{display:grid;place-items:center;text-align:center;flex:1;padding:24px}
+@media (max-width:430px){body{padding:0;display:block;background:var(--bg)}.phone{width:100%;height:100dvh;border:0;border-radius:0;box-shadow:none}}
+@media (prefers-reduced-motion:reduce){.skel{animation:none}}
+</style>
+</head>
+<body>
+<div class="phone" id="phone">
+
+  <!-- HOME -->
+  <section class="screen active" id="home" aria-label="Home">
+    <div class="hero">
+      <span class="mark">MOS TRANSLATOR</span>
+      <h2>Say what you did. Get understood.</h2>
+      <p>Turn your MOS, rank, and duties into resume and interview language civilian employers and ATS systems recognize.</p>
+    </div>
+    <div class="body">
+      <div class="label">Pick up where you left off</div>
+      <div class="resume-card">
+        <b>Cpl, 0331 Machine Gunner</b>
+        <div style="font-size:13.5px;color:#6b5a1f;margin-top:2px">Step 2 of 4 · Duties</div>
+        <div class="meter"><i style="width:50%"></i></div>
+        <button class="btn" style="min-height:52px;font-size:16px" onclick="go('duties')">Continue</button>
+      </div>
+      <button class="btn ghost" onclick="reset();go('mos')">Start a new translation</button>
+      <p class="note">Free to use. No account needed. Nothing you type is shared or stored on a server.</p>
+    </div>
+  </section>
+
+  <!-- STEP 1 MOS -->
+  <section class="screen" id="mos" aria-label="Step 1 Your service">
+    <div class="top"><button class="icon-btn" aria-label="Back" onclick="go('home')">←</button><h1>Your service</h1><button class="icon-btn" aria-label="Help" onclick="openHelp()">?</button></div>
+    <div class="stepper"><i class="on"></i><i></i><i></i><i></i></div>
+    <div class="steplabel">Step 1 of 4</div>
+    <div class="body">
+      <h2>What was your MOS?</h2>
+      <p class="lead">Choose the closest match. You can change it later.</p>
+      <div id="mosList"></div>
+      <div class="label">Rank at separation</div>
+      <div class="chips" id="rankChips"></div>
+    </div>
+    <div class="foot"><button class="btn" id="mosNext" disabled onclick="go('duties')">Next</button></div>
+  </section>
+
+  <!-- STEP 2 DUTIES -->
+  <section class="screen" id="duties" aria-label="Step 2 Duties">
+    <div class="top"><button class="icon-btn" aria-label="Back" onclick="go('mos')">←</button><h1>Your duties</h1><button class="icon-btn" aria-label="Help" onclick="openHelp()">?</button></div>
+    <div class="stepper"><i class="on"></i><i class="on"></i><i></i><i></i></div>
+    <div class="steplabel">Step 2 of 4</div>
+    <div class="body">
+      <h2>What did you actually do?</h2>
+      <p class="lead">Tap everything that applies. Plain Marine language is fine.</p>
+      <div id="dutyList"></div>
+      <div class="err" id="dutyErr" role="alert">Pick at least one duty so we have something to translate.</div>
+      <div class="label">Make it concrete (numbers help)</div>
+      <div class="panel">
+        <div class="row"><span>People you led or trained</span>
+          <span class="row" style="gap:6px"><button class="stepbtn" aria-label="Fewer" onclick="bump(-1)">−</button><span class="num" id="n">4</span><button class="stepbtn" aria-label="More" onclick="bump(1)">+</button></span></div>
+        <div class="label" style="margin-top:16px">Gear you were accountable for</div>
+        <div class="chips" id="eqChips" style="margin:0"></div>
+      </div>
+    </div>
+    <div class="foot"><button class="btn" onclick="dutiesNext()">Next</button></div>
+  </section>
+
+  <!-- STEP 3 SENSITIVITY -->
+  <section class="screen" id="safe" aria-label="Step 3 Sensitivity">
+    <div class="top"><button class="icon-btn" aria-label="Back" onclick="go('duties')">←</button><h1>Sensitive work</h1><button class="icon-btn" aria-label="Help" onclick="openHelp()">?</button></div>
+    <div class="stepper"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+    <div class="steplabel">Step 3 of 4</div>
+    <div class="body">
+      <h2>Is any of your work sensitive?</h2>
+      <p class="lead">Turn this on and we'll write at a high level, with no places, units, methods, or operations named.</p>
+      <button class="switch" id="sw" role="switch" aria-checked="false" onclick="toggleSafe()"><span class="knob"></span><span><b>Use classification-safe language</b><br><small style="color:var(--mute)">Recommended for recon and special operations roles</small></span></button>
+      <p class="note">Never type classified or sensitive details into any app. This tool only uses the general duty choices you tapped.</p>
+    </div>
+    <div class="foot"><button class="btn" onclick="runTranslate()">Translate my experience</button></div>
+  </section>
+
+  <!-- LOADING -->
+  <section class="screen" id="loading" aria-label="Translating">
+    <div class="top"><span style="width:48px"></span><h1>Translating</h1><span style="width:48px"></span></div>
+    <div class="stepper"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div>
+    <div class="steplabel">Step 4 of 4 · Building your translation…</div>
+    <div class="body" style="padding-top:24px"><div class="skel" style="width:60%;height:26px"></div><div class="skel"></div><div class="skel" style="width:92%"></div><div class="skel" style="width:80%"></div><div class="skel" style="width:70%;margin-top:24px"></div><div class="skel"></div><div class="skel" style="width:85%"></div></div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="screen" id="results" aria-label="Your translation">
+    <div class="top"><button class="icon-btn" aria-label="Edit answers" onclick="go('duties')">←</button><h1 id="resTitle">Your translation</h1><button class="icon-btn" aria-label="Help" onclick="openHelp()">?</button></div>
+    <div class="tabs" role="tablist">
+      <button class="tab on" role="tab" onclick="tab('resume',this)">Resume</button>
+      <button class="tab" role="tab" onclick="tab('interview',this)">Interview</button>
+      <button class="tab" role="tab" onclick="tab('jobs',this)">Job titles</button>
+    </div>
+    <div class="body">
+      <div class="pane on" id="p-resume">
+        <div class="score"><div class="ring" id="ring"><span id="scoreN">82</span></div><div><b>ATS keyword match</b><small id="scoreTxt">Add more duties or numbers to raise this.</small></div></div>
+        <div class="banner" id="safeBanner" style="display:none">Classification-safe language is on. No places, units, methods, or operations are named.</div>
+        <div id="bullets"></div>
+        <div class="label">Keywords recruiters search for</div>
+        <div id="kws"></div>
+      </div>
+      <div class="pane" id="p-interview"><p class="lead">Say it out loud before you're in the room. Fill the dashed line with your own result.</p><div id="stars"></div></div>
+      <div class="pane" id="p-jobs"><p class="lead">Roles that actually need what you did, not just the first one that will hire you.</p><div id="jobsList"></div></div>
+    </div>
+    <div class="foot"><button class="btn" onclick="copyAll()">Copy resume bullets</button></div>
+  </section>
+
+  <!-- overlays -->
+  <div class="sheet-bg" id="helpBg" onclick="closeSheets(event)">
+    <div class="sheet" role="dialog" aria-label="Help"><h3>How this works</h3>
+      <p><b>MOS</b> is your military job. <b>ATS</b> is the software that scans resumes before a person sees them.</p>
+      <p>Every line is written from the duties you chose. Tap <b>Why this works</b> to see the reasoning, and edit anything that doesn't sound like you. Don't claim what you didn't do.</p>
+      <button class="btn" onclick="closeSheets()">Got it</button></div>
+  </div>
+  <div class="sheet-bg" id="offBg" onclick="closeSheets(event)">
+    <div class="sheet" role="dialog" aria-label="Sounds off"><h3>What feels off?</h3>
+      <button class="card-opt" onclick="closeSheets();toast('Thanks. We use this to improve translations.')"><span><b>Too inflated</b><small>Claims more than I did</small></span></button>
+      <button class="card-opt" onclick="closeSheets();toast('Thanks. We use this to improve translations.')"><span><b>Too vague</b><small>Doesn't show my impact</small></span></button>
+      <button class="card-opt" onclick="closeSheets();toast('Thanks. We use this to improve translations.')"><span><b>Wrong job language</b><small>A civilian wouldn't say it this way</small></span></button>
+    </div>
+  </div>
+  <div class="toast" id="toast"><span id="toastMsg"></span><button id="toastUndo" style="display:none" onclick="undo()">Undo</button></div>
+</div>
+
+<script>
+const MOS=[
+ {c:'0311',n:'Rifleman',s:'Infantry rifle squad',ctx:'rifle squad',u:{id:'u',l:'Kept a unit safe and aware over multi-day operations',b:'Maintained situational awareness and security of personnel and property across multi-day operations, escalating issues early.',kw:['Situational Awareness','Security Operations','Risk Mitigation']},jobs:[['Operations Supervisor',88],['Safety Coordinator',81],['Logistics Coordinator',77],['Protective Services Lead',70]]},
+ {c:'0331',n:'Machine Gunner',s:'Crew-served weapons team',ctx:'crew-served weapons team',u:{id:'u',l:'Operated and maintained complex technical systems',b:'Operated and maintained complex technical equipment systems, troubleshooting faults and keeping them mission-ready.',kw:['Technical Troubleshooting','Preventive Maintenance','Systems Operation']},jobs:[['Operations Supervisor',90],['Equipment / Asset Manager',84],['Logistics Coordinator',80],['Maintenance Team Lead',76]]},
+ {c:'0341',n:'Mortarman',s:'Indirect fire / forward observer',ctx:'fire support section',u:{id:'u',l:'Ran fast calculations that others depended on',b:'Performed rapid quantitative calculations and coordinated multi-party timing where errors carry high consequences.',kw:['Quantitative Analysis','Coordination','Attention to Detail']},jobs:[['Operations Analyst',85],['Logistics Coordinator',82],['Project Coordinator',78],['Dispatch Supervisor',74]]},
+ {c:'0321',n:'Reconnaissance Marine',s:'Recon team',ctx:'reconnaissance team',u:{id:'u',l:'Gathered and reported information to decision makers',b:'Gathered, analyzed, and reported information to decision makers, producing clear written and verbal briefs under time pressure.',kw:['Intelligence Analysis','Reporting','Briefing']},jobs:[['Risk / Intelligence Analyst',86],['Operations Manager',80],['Project Manager (Associate)',76],['Security Consultant',72]]},
+ {c:'0372',n:'Critical Skills Operator',s:'MARSOC special operations',ctx:'small special operations team',u:{id:'u',l:'Planned and led small-team missions',b:'Planned and led small-team operations in ambiguous, high-risk environments, managing risk, resources, and partner coordination.',kw:['Strategic Planning','Stakeholder Coordination','Crisis Leadership']},jobs:[['Operations Manager',91],['Program Manager',84],['Director, Risk &amp; Resilience',79],['Chief of Staff (Ops)',72]]}
+];
+const DUTIES=[
+ {id:'lead',l:'Led a team',b:'Led a {n}-person {ctx}, assigning tasks, enforcing standards, and holding every member accountable for results.',s:'Led a {n}-person team in high-stakes environments with limited information, assigning tasks and holding every member accountable.',why:'Hiring managers scan for "led" plus a team size. Naming the number makes the leadership concrete.',kw:['Team Leadership','Supervision','Performance Management']},
+ {id:'equip',l:'Kept gear accountable',b:'Maintained accountability for {eq} in equipment through scheduled inspections, inventory control, and maintenance tracking.',s:'Maintained accountability for {eq} in equipment through inspections and inventory control.',why:'"Equipment" alone is vague. A dollar figure and "inventory control" are asset management keywords.',kw:['Asset Management','Inventory Control','Compliance']},
+ {id:'plan',l:'Planned and rehearsed missions',b:'Planned and rehearsed multi-step operations with defined timelines, contingencies, and clear communication plans.',s:'Developed and rehearsed operational plans with timelines and contingencies.',why:'Planning with contingencies maps directly to project and operations planning roles.',kw:['Operational Planning','Contingency Planning','Risk Management']},
+ {id:'train',l:'Trained junior Marines',b:'Trained and mentored junior personnel on procedures and safety, raising team readiness ahead of high-demand periods.',s:'Trained and mentored junior personnel on procedures and safety.',why:'Training and mentoring is a top-searched leadership keyword and shows you grow people.',kw:['Training &amp; Development','Mentoring','Onboarding']},
+ {id:'press',l:'Made calls under pressure',b:'Made time-critical decisions under physical and mental stress, balancing risk against requirements and communicating clearly.',s:'Made time-critical decisions under stress, balancing risk and communicating clearly.',why:'This reframes "combat" as decision-making under pressure, which civilians recognize and value.',kw:['Decision-Making','Crisis Management','Composure Under Pressure']}
+];
+const RANKS=['E-3 / E-4','E-5','E-6','E-7+','Officer'];
+const EQ=['Under $100K','$100K–$500K','$500K+'];
+const S={mos:null,rank:'E-4',duties:new Set(),n:4,eq:'$100K–$500K',safe:false,removed:[],last:null};
+const $=id=>document.getElementById(id);
+function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));if(id==='results')renderResults();}
+function reset(){S.mos=null;S.duties=new Set();S.safe=false;renderMos();renderDuties();$('sw').classList.remove('on');$('sw').setAttribute('aria-checked','false');}
+function renderMos(){
+  $('mosList').innerHTML=MOS.map(m=>`<button class="card-opt ${S.mos===m.c?'sel':''}" onclick="pickMos('${m.c}')"><span class="code">${m.c}</span><span><b>${m.n}</b><small>${m.s}</small></span></button>`).join('');
+  $('rankChips').innerHTML=RANKS.map(r=>`<button class="chip ${S.rank===r?'sel':''}" onclick="S.rank='${r}';renderMos()">${r}</button>`).join('');
+  $('mosNext').disabled=!S.mos;
+}
+function pickMos(c){S.mos=c;renderMos();renderDuties();}
+function mosObj(){return MOS.find(m=>m.c===S.mos)||MOS[1];}
+function renderDuties(){
+  const m=mosObj();const all=[...DUTIES,{id:'u',l:m.u.l}];
+  $('dutyList').innerHTML=all.map(d=>`<button class="chip duty ${S.duties.has(d.id)?'sel':''}" aria-pressed="${S.duties.has(d.id)}" onclick="toggleDuty('${d.id}')">${d.l}</button>`).join('');
+  $('n').textContent=S.n;
+  $('eqChips').innerHTML=EQ.map(e=>`<button class="chip ${S.eq===e?'sel':''}" onclick="S.eq='${e}';renderDuties()">${e}</button>`).join('');
+}
+function toggleDuty(id){S.duties.has(id)?S.duties.delete(id):S.duties.add(id);$('dutyErr').classList.remove('show');renderDuties();}
+function bump(d){S.n=Math.max(1,Math.min(40,S.n+d));$('n').textContent=S.n;}
+function dutiesNext(){if(!S.duties.size){$('dutyErr').classList.add('show');return;}go('safe');}
+function toggleSafe(){S.safe=!S.safe;$('sw').classList.toggle('on',S.safe);$('sw').setAttribute('aria-checked',S.safe);}
+function runTranslate(){go('loading');setTimeout(()=>go('results'),700);}
+function fill(t,m){return t.replace('{n}',S.n).replace('{ctx}',m.ctx).replace('{eq}',S.eq.replace('Under ','under ').replace('+','+').replace('–',' to '));}
+function activeDuties(){const m=mosObj();return [...DUTIES.filter(d=>S.duties.has(d.id)),...(S.duties.has('u')?[{id:'u',l:m.u.l,b:m.u.b,s:m.u.b,why:'This is the specific technical skill from your MOS that most civilians never hear about, so naming it plainly sets you apart.',kw:m.u.kw}]:[])].filter(d=>!S.removed.includes(d.id));}
+function renderResults(){
+  const m=mosObj();const ds=activeDuties();
+  $('resTitle').textContent=`${m.c} ${m.n}`;
+  $('safeBanner').style.display=S.safe?'block':'none';
+  const kws=[...new Set(ds.flatMap(d=>d.kw))];
+  const score=Math.min(96,38+ds.length*9+(S.n>=3?4:0)+(S.eq?3:0));
+  $('ring').style.setProperty('--p',score);$('scoreN').textContent=score;
+  $('scoreTxt').textContent=score>=85?'Strong. This should clear most first scans.':'Add more duties or numbers to raise this.';
+  $('bullets').innerHTML=ds.map(d=>`<div class="bullet" id="b-${d.id}"><div class="mil">From: ${d.l}</div><div class="civ" contenteditable="true" spellcheck="true" aria-label="Editable resume line">${fill(S.safe?d.s:d.b,m)}</div><div class="acts"><button class="mini" onclick="copyOne('${d.id}')">Copy</button><button class="mini" onclick="$('w-${d.id}').classList.toggle('show')">Why this works</button><button class="mini" onclick="$('offBg').classList.add('show')">Sounds off?</button><button class="mini" onclick="removeB('${d.id}')">Remove</button></div><div class="why" id="w-${d.id}">${d.why}</div></div>`).join('')||'<p class="lead">All lines removed. Go back to add duties.</p>';
+  $('kws').innerHTML=kws.map(k=>`<span class="kw">${k}</span>`).join('');
+  const stars=[['Tell me about a time you led a team under pressure.','lead',`As a ${S.rank} on a ${m.ctx}, I was responsible for ${S.n} people.`,'Keep everyone aligned on the objective and safe.','Set clear roles, briefed contingencies, and checked in at every decision point.']
+   ,['Describe how you handle a plan that falls apart.','plan','Our timeline changed mid-operation with limited information.','Re-plan fast without losing the objective.','Re-prioritized tasks, communicated the new plan, and adapted as conditions changed.']
+   ,['How do you manage resources you are accountable for?','equip',`I was accountable for ${fill('{eq}',m)} in equipment.`,'Keep every item tracked, maintained, and ready.','Ran scheduled inspections and kept inventory records current.']].filter(x=>S.duties.has(x[1]));
+  $('stars').innerHTML=(stars.length?stars:[['Tell me about yourself.','',`I'm a ${S.rank} ${m.n} who led and trained teams.`,'Show how that maps to the role.','Lead with leadership, then your strongest duty.']]).map(x=>`<div class="star"><h3>${x[0]}</h3><dl><dt>S</dt><dd>${x[2]}</dd><dt>T</dt><dd>${x[3]}</dd><dt>A</dt><dd>${x[4]}</dd><dt>R</dt><dd class="fill">Add one result you're proud of</dd></dl></div>`).join('');
+  $('jobsList').innerHTML=m.jobs.map(j=>`<div class="job"><div><b>${j[0]}</b><small>Skills match your selected duties</small></div><span class="pct">${j[1]}%</span></div>`).join('');
+}
+function tab(id,btn){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));btn.classList.add('on');document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('on',p.id==='p-'+id));}
+function toast(msg,undo){$('toastMsg').textContent=msg;$('toastUndo').style.display=undo?'block':'none';$('toast').classList.add('show');clearTimeout(window._t);window._t=setTimeout(()=>$('toast').classList.remove('show'),undo?5000:2200);}
+function copyText(t){try{navigator.clipboard.writeText(t)}catch(e){}}
+function copyOne(id){copyText(document.querySelector('#b-'+id+' .civ').textContent);toast('Copied to clipboard');}
+function copyAll(){copyText([...document.querySelectorAll('.civ')].map(e=>'• '+e.textContent).join('\n'));toast('All resume lines copied');}
+function removeB(id){S.removed.push(id);S.last=id;renderResults();toast('Line removed',true);}
+function undo(){S.removed=S.removed.filter(x=>x!==S.last);renderResults();$('toast').classList.remove('show');}
+function openHelp(){$('helpBg').classList.add('show');}
+function closeSheets(e){if(e&&e.target&&!e.target.classList.contains('sheet-bg'))return;document.querySelectorAll('.sheet-bg').forEach(s=>s.classList.remove('show'));}
+// demo presets for screenshots: #mos #duties #safe #results #results-safe #interview #jobs #help
+(function init(){
+  S.mos='0331';S.rank='E-4';S.duties=new Set(['lead','equip','plan','train','u']);
+  const h=location.hash.slice(1);
+  if(location.search.includes('shot'))document.body.classList.add('shot');
+  if(h==='mos'){S.mos=null;S.duties=new Set();}
+  renderMos();renderDuties();
+  if(h==='duties'){S.duties=new Set(['lead','equip']);renderDuties();}
+  if(h.startsWith('results')||h==='interview'||h==='jobs'){if(h==='results-safe'){S.safe=true;S.mos='0372';S.duties=new Set(['lead','plan','press','u']);S.n=5;}}
+  
+  if(h==='error'){S.duties=new Set();renderDuties();go('duties');$('dutyErr').classList.add('show');return;}
+  if(h==='help'){go('results');openHelp();return;}
+  if(h==='why'){go('results');$('w-lead').classList.add('show');return;}
+  if(h==='interview'){go('results');tab('interview',document.querySelectorAll('.tab')[1]);return;}
+  if(h==='jobs'){go('results');tab('jobs',document.querySelectorAll('.tab')[2]);return;}
+  if(h){if(location.search.includes('shot'))document.body.classList.add('shot');go(h==='results-safe'?'results':h);}
+  if(location.search.includes('shot'))document.body.classList.add('shot');
+})();
+</script>
+</body>
+</html>

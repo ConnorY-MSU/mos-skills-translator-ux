@@ -1,0 +1,23 @@
+<!doctype html><meta charset=utf-8><style>
+body{margin:0;background:#fbfaf5;font-family:"Comic Sans MS","Chalkboard SE","Segoe Print",cursive;width:1500px}
+h1{font-size:30px;margin:24px 32px 4px}p.s{margin:0 32px 18px;color:#555;font-size:17px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;padding:0 32px 32px}
+.f{border:3px solid #222;border-radius:26px;height:560px;padding:16px;position:relative;background:#fff;filter:url(#w)}
+.t{font-size:15px;color:#a05a00;margin-bottom:8px}
+.bx{border:2.5px solid #222;border-radius:8px;padding:8px 10px;margin:8px 0;font-size:17px}
+.btn{border:2.5px solid #222;border-radius:12px;text-align:center;padding:12px;font-size:19px;position:absolute;left:16px;right:16px;bottom:16px;background:repeating-linear-gradient(135deg,#fff,#fff 6px,#f0e2b8 6px,#f0e2b8 8px)}
+.ln{height:9px;border-radius:4px;background:#bbb;margin:9px 0}.hd{font-size:24px;font-weight:700;margin:6px 0}
+.bar{display:flex;gap:6px;margin:6px 0}.bar i{flex:1;height:8px;border:2px solid #222;border-radius:4px}.bar i.o{background:#444}
+.ch{display:inline-block;border:2.5px solid #222;border-radius:18px;padding:4px 12px;margin:4px 4px 0 0;font-size:16px}.ch.x{background:#333;color:#fff}
+.note{position:absolute;right:-6px;top:90px;background:#fff3a8;border:2px solid #c9a800;padding:6px 8px;font-size:14px;transform:rotate(3deg);width:130px;z-index:2}
+</style>
+<svg width=0 height=0><filter id=w><feTurbulence type=fractalNoise baseFrequency=.02 numOctaves=2 seed=3 /><feDisplacementMap in=SourceGraphic scale=3.5 /></filter></svg>
+<h1>Stage 4 · Low-fidelity sketches (paper-style wireframes)</h1><p class=s>Six key screens, drawn quickly to test flow before committing to visual design. Yellow notes are design decisions made while sketching.</p>
+<div class=grid>
+<div class=f><div class=t>1 · Home</div><div class=hd>Say what you did.<br>Get understood.</div><div class=ln></div><div class=ln style="width:70%"></div><div class=bx>▶ Continue: Cpl 0331 · step 2 of 4</div><div class=bx style="width:55%">progress ▬▬▬▭▭</div><div class=btn>Start new translation</div><div class=note>Show saved progress right on home</div></div>
+<div class=f><div class=t>2 · Step 1: MOS</div><div class=bar><i class=o></i><i></i><i></i><i></i></div><div class=hd>What was your MOS?</div><div class=bx>[0311] Rifleman</div><div class=bx>[0331] Machine Gunner</div><div class=bx>[0341] Mortarman</div><div class=bx>[0321] Recon</div><span class=ch>E-4</span><span class=ch x>E-5</span><span class=ch>E-6</span><div class=btn>Next</div><div class=note>Cards, not a dropdown. No typing.</div></div>
+<div class=f><div class=t>3 · Step 2: Duties</div><div class=bar><i class=o></i><i class=o></i><i></i><i></i></div><div class=hd>What did you actually do?</div><div class=bx style="background:#ddd">☑ Led a team</div><div class=bx style="background:#ddd">☑ Kept gear accountable</div><div class=bx>☐ Planned missions</div><div class=bx>☐ Trained junior Marines</div><div class=bx>people led  [ − 4 + ]</div><div class=btn>Next</div></div>
+<div class=f><div class=t>4 · Step 3: Sensitive work?</div><div class=bar><i class=o></i><i class=o></i><i class=o></i><i></i></div><div class=hd>Is any of your work sensitive?</div><div class=ln></div><div class=ln style="width:80%"></div><div class=bx style="margin-top:22px">Classification-safe language &nbsp;( ◯— )</div><div class=ln style="width:60%"></div><div class=btn>Translate my experience</div><div class=note>Toggle, off by default, with a plain-English warning</div></div>
+<div class=f><div class=t>5 · Results: resume tab</div><div style="display:flex;justify-content:space-around;border-bottom:3px solid #222;padding-bottom:6px"><b>Resume</b><span>Interview</span><span>Jobs</span></div><div class=bx style="margin-top:12px;background:#ddd">◔ ATS match 90%</div><div class=bx>"Led a 4-person team…"<br>[Copy] [Why?] [Sounds off?] [✕]</div><div class=bx>"Maintained accountability for $…"<br>[Copy] [Why?] [✕]</div><span class=ch>Team Leadership</span><span class=ch>Asset Mgmt</span><div class=btn>Copy resume bullets</div></div>
+<div class=f><div class=t>6 · Results: interview + jobs</div><div style="display:flex;justify-content:space-around;border-bottom:3px solid #222;padding-bottom:6px"><span>Resume</span><b>Interview</b><span>Jobs</span></div><div class=bx style="margin-top:12px"><b>Tell me about a time you led a team…</b><br>S: …<br>T: …<br>A: …<br>R: <span style="border-bottom:2px dashed #222">add your result</span></div><div class=bx>Operations Supervisor &nbsp; 90%</div><div class=bx>Logistics Coordinator &nbsp; 80%</div><div class=note>STAR format so they can say it out loud</div></div>
+</div>

@@ -1,0 +1,42 @@
+<!doctype html><meta charset=utf-8><style>body{margin:0;background:#fbfaf5;font-family:system-ui,sans-serif}svg{display:block}text{font-size:15px;fill:#1b1f2a}.c{font-size:18px;font-weight:700;fill:#fff}.b{font-weight:700;font-size:16px;fill:#fff}</style>
+<svg width=1900 height=900 viewBox="0 0 1900 900">
+<defs><style>.l{stroke-width:3;fill:none}</style></defs>
+<g class=l id=lines></g><g id=nodes></g>
+<script>
+const NS='http://www.w3.org/2000/svg';const L=document.getElementById('lines'),N=document.getElementById('nodes');
+const cx=950,cy=450;
+const br=[
+['Getting my\nexperience in',-150,-300,'#2f6f9f',['Pick MOS from cards','Scan DD-214 / VMET (later)','Duty chips, not blank page','Quantify: people, $ gear']],
+['Output\nlanguage',150,-300,'#c98a0a',['Resume bullets','Interview STAR answers','Civilian job titles','ATS keyword score']],
+['Trust &\ncredibility',470,-170,'#2f7d4f',['"Why this works"','Vet-validated phrasing','No inflated claims','Edit every line']],
+['Sensitive\nroles',470,170,'#7a4a9e',['Classification-safe mode','Never ask for specifics','High-level phrasing','Warn before typing']],
+['Confidence &\nidentity',150,300,'#b3261e',['"What I actually led" summary','Pride, not downplay','Mock interview (dream)','Progress + saved work']],
+['Reach &\nbusiness',-150,300,'#14213d',['TAP / VSO partners','Free core, paid coaching','B2B for hiring programs','Reddit / Discord / word of mouth']],
+['Beyond\nresume',-470,0,'#5b6372',['Paste a job posting, match it','Reverse lookup: job to MOS','Mentor review tier','LinkedIn headline writer']]
+];
+function el(t,a){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e}
+br.forEach(([name,dx,dy,col,kids])=>{
+ const bx=cx+dx,by=cy+dy;
+ const p=el('path',{d:`M${cx} ${cy} Q ${(cx+bx)/2} ${cy} ${bx} ${by}`,stroke:col,class:'l'});L.appendChild(p);
+ kids.forEach((k,i)=>{
+  const off=(i-(kids.length-1)/2)*52;
+  const sx=dx<0?-1:1, kx=bx+sx*(dx===150||dx===-150?0:0);
+  const horiz=Math.abs(dy)>=300; // top/bottom branches fan sideways
+  let tx,ty;
+  if(horiz){tx=bx+(i-(kids.length-1)/2)*0;ty=by+(dy<0?-1:1)*(70+i*0);}
+  // place children in a column away from center
+  const dirx = dx===0?0:(dx>0?1:-1);
+  let px,py;
+  if(Math.abs(dy)>=300){px=bx+(dx>0?170:-170);py=by+off*1.0;} else {px=bx+dirx*190;py=by+off;}
+  if(Math.abs(dy)>=300){px=bx+(dx>0?1:-1)*190;}
+  L.appendChild(el('path',{d:`M${bx} ${by} Q ${(bx+px)/2} ${by} ${px} ${py}`,stroke:col,class:'l',opacity:.6}));
+  const w=k.length*8.2+24;
+  const g=el('g',{});g.appendChild(el('rect',{x:px-(dirx<0||dx<0?w:0),y:py-17,width:w,height:34,rx:17,fill:'#fff',stroke:col,'stroke-width':2.5}));
+  const t=el('text',{x:px-(dirx<0||dx<0?w:0)+12,y:py+5});t.textContent=k;g.appendChild(t);N.appendChild(g);
+ });
+ const g=el('g',{});g.appendChild(el('rect',{x:bx-62,y:by-26,width:124,height:52,rx:14,fill:col}));
+ name.split('\n').forEach((s,i,a)=>{const t=el('text',{x:bx,y:by+(a.length>1?(i?12:-5):5),'text-anchor':'middle',class:'b'});t.textContent=s;g.appendChild(t)});N.appendChild(g);
+});
+const g=el('g',{});g.appendChild(el('ellipse',{cx,cy,rx:112,ry:62,fill:'#14213d'}));
+['Help infantry &','SOF veterans be','understood by','civilian employers'].forEach((s,i)=>{const t=el('text',{x:cx,y:cy-22+i*20,'text-anchor':'middle',class:'c',style:'font-size:15px'});t.textContent=s;g.appendChild(t)});N.appendChild(g);
+</script></svg>

@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MOS Skills Translator | UX Design Process, Stages 1 to 4</title>
+<meta name="description" content="CSCI 443 UX course project by Connor Yetter: a resume and interview translation app for infantry and special operations veterans. Stages 1 to 4 (Empathize, Define, Ideate, Prototype).">
+<style>
+:root{--navy:#14213d;--navy2:#22345c;--amber:#f2b134;--amberd:#a86f00;--bg:#f6f4ef;--card:#fff;--ink:#1b1f2a;--mute:#555d6c;--line:#e1ddd2;--blue:#eaf0fb;--ok:#2f7d4f}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;font:17px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg)}
+a{color:var(--navy2)}a:focus-visible,button:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:#fff;padding:8px;z-index:99}
+nav{position:sticky;top:0;z-index:10;background:var(--navy);display:flex;gap:4px;padding:0 12px;overflow-x:auto}
+nav a{color:#dfe5f2;text-decoration:none;padding:16px 14px;font-weight:600;font-size:15px;white-space:nowrap;border-bottom:3px solid transparent}
+nav a:hover{color:#fff;border-bottom-color:var(--amber)}
+header.hero{background:linear-gradient(160deg,var(--navy),var(--navy2));color:#fff;padding:72px 24px 64px}
+.wrap{max-width:1000px;margin:0 auto}
+.hero .tag{display:inline-block;background:var(--amber);color:var(--navy);font-weight:800;letter-spacing:1.5px;font-size:13px;padding:5px 12px;border-radius:6px}
+.hero h1{font-size:clamp(34px,6vw,56px);line-height:1.1;margin:18px 0 12px}
+.hero p{font-size:20px;color:#cfd6e6;max-width:720px;margin:0 0 22px}
+.hero .meta{font-size:15px;color:#aab4cc}
+.btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.btn{display:inline-block;background:var(--amber);color:var(--navy);font-weight:800;padding:14px 22px;border-radius:12px;text-decoration:none}
+.btn.o{background:transparent;color:#fff;border:2px solid #8fa0c6}
+section{padding:64px 24px;border-bottom:1px solid var(--line)}
+section:nth-of-type(even){background:#fbfaf6}
+.stage{font-weight:800;letter-spacing:1.5px;font-size:13px;color:var(--amberd);text-transform:uppercase}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.15;color:var(--navy);margin:6px 0 6px}
+h3{font-size:22px;color:var(--navy);margin:38px 0 10px}h4{font-size:18px;margin:24px 0 8px;color:var(--navy)}
+.sub{color:var(--mute);margin:0 0 24px}
+p{margin:0 0 14px}ul{padding-left:22px}li{margin-bottom:6px}
+figure{margin:22px 0}figure img{width:100%;height:auto;display:block;border-radius:12px;border:1px solid var(--line);background:#fff}
+figcaption{font-size:14px;color:var(--mute);text-align:center;margin-top:8px}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.card h4{margin-top:0}
+table{border-collapse:collapse;width:100%;font-size:15px;background:#fff;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+th{background:var(--navy);color:#fff;text-align:left;padding:10px 12px;font-size:14px}td{padding:10px 12px;border-top:1px solid var(--line);vertical-align:top}
+.tw{overflow-x:auto;margin:14px 0}
+.callout{background:var(--blue);border-left:5px solid var(--navy2);padding:16px 18px;border-radius:8px;margin:18px 0}
+.persona{display:grid;grid-template-columns:260px 1fr;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.persona aside{background:var(--navy);color:#fff;padding:26px}.persona aside h4{color:var(--amber);margin:18px 0 4px;font-size:13px;letter-spacing:1px;text-transform:uppercase}
+.persona aside .name{font-size:28px;font-weight:800;margin:0}.persona aside p{margin:0;color:#dfe5f2;font-size:15px;line-height:1.45}
+.persona main{padding:26px}.quote{font-size:20px;font-style:italic;color:var(--navy);border-left:4px solid var(--amber);padding-left:14px;margin:0 0 18px}
+.phone{display:block;width:100%;max-width:390px;height:844px;border:10px solid #0b1020;border-radius:34px;margin:0 auto;background:#fff;box-shadow:0 12px 40px rgba(0,0,0,.25)}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px}.shots figure{margin:0}.shots img{border-radius:14px}
+.pill{display:inline-block;font-size:13px;font-weight:700;padding:3px 10px;border-radius:99px;background:#e6f3ea;color:#1d5a37;margin-right:6px}
+.pill.l{background:#fff1d1;color:#7a5200}
+footer{background:var(--navy);color:#aab4cc;padding:40px 24px;font-size:15px}footer a{color:var(--amber)}
+@media(min-width:761px){.grid2>figure:last-child:nth-child(odd){grid-column:1/-1;width:calc(50% - 9px);margin-inline:auto}}
+@media(max-width:760px){.grid2,.grid3,.persona{grid-template-columns:1fr}section{padding:48px 18px}body{font-size:16px}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<nav aria-label="Project sections">
+  <a href="#overview">Overview</a><a href="#stage1">1 Empathize</a><a href="#stage2">2 Define</a><a href="#stage3">3 Ideate</a><a href="#stage4">4 Prototype</a><a href="#next">Next: Test</a>
+</nav>
+<header class="hero"><div class="wrap">
+  <span class="tag">CSCI 443 · UX DESIGN THINKING</span>
+  <h1>MOS Skills Translator</h1>
+  <p>A resume and interview translation app for infantry and special operations veterans. It turns what a Marine actually did into language civilian employers and ATS software recognize.</p>
+  <div class="meta">Connor Yetter · Stages 1 to 4 of the UX Design Process · Fall 2026</div>
+  <div class="btns"><a class="btn" href="#prototype">Try the prototype</a><a class="btn o" href="#stage4">Jump to Stage 4</a></div>
+</div></header>
+
+<main id="main">
+<section id="overview"><div class="wrap">
+  <div class="stage">Overview</div><h2>The problem and the approach</h2>
+  <p class="sub">A project built on a problem I lived, designed with the people who share it.</p>
+  <p>I served in the Marine Corps as an infantryman and later as a special operations Marine. When I got out, none of the words I used every day meant anything to a civilian employer. Terms like <em>fire team leader</em> or <em>direct action</em> got blank stares or got filed under security guard and warehouse work, no matter how much leadership, risk management, and technical skill sat behind them.</p>
+  <div class="grid3" style="margin-top:20px">
+    <div class="card"><h4>Useful</h4><p>It maps a specific MOS, rank, and duties to the civilian job titles and keywords that employers actually search for.</p></div>
+    <div class="card"><h4>Desirable</h4><p>It is built by a veteran, for veterans, and it builds confidence instead of flattening identity.</p></div>
+    <div class="card"><h4>Usable</h4><p>Four short phone-first steps. Tap choices instead of facing a blank page.</p></div>
+  </div>
+  <h3>Progress</h3>
+  <div class="tw"><table><thead><tr><th>Stage</th><th>Focus</th><th>Status</th></tr></thead><tbody>
+  <tr><td>1 Empathize</td><td>Problem statement, interview pool, survey, 5 empathy maps</td><td><span class="pill">Complete</span></td></tr>
+  <tr><td>2 Define</td><td>Persona and business model canvas</td><td><span class="pill">Complete</span></td></tr>
+  <tr><td>3 Ideate</td><td>Mind map, Walt Disney Creative Strategy</td><td><span class="pill">Complete</span></td></tr>
+  <tr><td>4 Prototype</td><td>Low-fi sketches, high-fi interactive prototype, 10 heuristics, UX laws</td><td><span class="pill">Complete</span></td></tr>
+  <tr><td>5 Test</td><td>Usability study with 5 participants and Python analysis</td><td><span class="pill l">Up next</span></td></tr>
+  </tbody></table></div>
+</div></section>
+
+<!-- STAGE 1 -->
+<section id="stage1"><div class="wrap">
+  <div class="stage">Stage 1</div><h2>Empathize: Research Your Users' Needs</h2>
+  <p class="sub">Understand the problem from the inside before designing anything.</p>
+  <h3>Problem statement</h3>
+  <div class="callout"><strong>Combat arms and special operations veterans separate with some of the most demanding leadership and technical training in the military, but their MOS rarely maps to a civilian job title.</strong> Nearly a third of veteran job seekers report being underemployed, well above their non-veteran peers (NVTI, 2023), and close to half of veterans affected by recent workforce changes say translating military experience into a civilian application is a direct barrier (Indeed, 2025).</div>
+  <p>The app takes a veteran's MOS, rank, deployments, and duties and translates them into resume and interview language, so a Marine who led combat patrols does not end up applying for the same entry level job as someone with no leadership experience at all.</p>
+
+  <h3>Interview pool (sample size = 5)</h3>
+  <h4>How I selected participants</h4>
+  <ul>
+    <li>All five come from my own network of fellow infantry and special operations Marines, the community I know and the one this app is built for.</li>
+    <li>I chose a spread of MOS on purpose. A machine gunner, a mortarman, a reconnaissance Marine, and a MARSOC critical skills operator did very different work, and none of it maps cleanly to a civilian title.</li>
+    <li>I chose a spread of time in service, from a single four-year infantry contract to a senior special operator with over a decade, because the translation problem does not go away with seniority. It often gets harder.</li>
+  </ul>
+  <h4>Ages, gender, and rationale</h4>
+  <p>Participants are 23 to 32, which matches the real spread of the community. All five are male, reflecting the actual makeup of infantry and special operations: as of recent Marine Corps reporting, only 231 women serve in any combat arms billet Corps-wide (Marine Corps Times, 2024). Recruiting from this specific community means an honest sample of the people who live this problem.</p>
+  <div class="tw"><table><thead><tr><th>Participant</th><th>Age</th><th>Gender</th><th>MOS</th><th>Since separation</th></tr></thead><tbody>
+  <tr><td>Dominic R.</td><td>23</td><td>Male</td><td>0311 Rifleman</td><td>4 months</td></tr>
+  <tr><td>Ethan C.</td><td>25</td><td>Male</td><td>0331 Machine Gunner</td><td>9 months</td></tr>
+  <tr><td>Tyler B.</td><td>26</td><td>Male</td><td>0341 Mortarman</td><td>14 months</td></tr>
+  <tr><td>Marcus W.</td><td>28</td><td>Male</td><td>0321 Reconnaissance Marine</td><td>19 months</td></tr>
+  <tr><td>Jake S.</td><td>32</td><td>Male</td><td>0372 Critical Skills Operator, MARSOC</td><td>22 months</td></tr>
+  </tbody></table></div>
+
+  <h3>Survey and interview questions</h3>
+  <p>The questions were written to surface what participants say, think, do, and feel, which feeds the empathy maps below and the persona in Stage 2.</p>
+  <div class="grid2">
+    <div class="card"><h4>Background</h4><ol start="1"><li>What was your MOS, what unit type did you serve in, and how long ago did you separate?</li><li>What did your day-to-day responsibilities and rank look like, in your own words?</li></ol>
+    <h4>Transition and job search</h4><ol start="3"><li>Walk me through what your civilian job search has looked like since you got out.</li><li>What resources have you used to translate your experience (TAP, the VA, LinkedIn, veteran organizations), and how helpful were they really?</li><li>Tell me about a specific moment you struggled to explain your military experience to a civilian recruiter, hiring manager, or friend.</li><li>Has a resume or application been rejected or ignored? Why do you think that happened?</li><li>Is there anything you cannot fully explain because of classification or sensitivity, and how do you handle that?</li></ol></div>
+    <div class="card"><h4>Emotional</h4><ol start="8"><li>How did it feel the first time you put your military experience into a civilian resume?</li><li>What emotions come up when you think about your job search?</li><li>Has anyone said something, good or bad, about your military background that stuck with you?</li></ol>
+    <h4>Behavior</h4><ol start="11"><li>What have you tried on your own to bridge the gap between how you describe your job to another Marine and to a civilian?</li><li>What tools, templates, or people do you lean on now, and what is missing?</li></ol>
+    <h4>Needs and aspirations</h4><ol start="13"><li>If a tool were built to translate your experience, what is the one thing it has to get right?</li><li>What would success look like in this job search?</li></ol></div>
+  </div>
+
+  <h3>Empathy maps</h3>
+  <p>One completed empathy map per participant, using the course template.</p>
+  <div class="grid2">
+    <figure><img loading="lazy" src="assets/empathy-1.png" alt="Empathy map for Dominic R., 0311 Rifleman, age 23"><figcaption>Dominic R., 0311 Rifleman. Misses having a clear mission; unsure what a "grunt" is worth on paper.</figcaption></figure>
+    <figure><img loading="lazy" src="assets/empathy-2.png" alt="Empathy map for Ethan C., 0331 Machine Gunner, age 25"><figcaption>Ethan C., 0331 Machine Gunner. About 30 applications in 9 months with almost no response.</figcaption></figure>
+    <figure><img loading="lazy" src="assets/empathy-3.png" alt="Empathy map for Tyler B., 0341 Mortarman, age 26"><figcaption>Tyler B., 0341 Mortarman. Took the first job that would hire him and quietly settled.</figcaption></figure>
+    <figure><img loading="lazy" src="assets/empathy-4.png" alt="Empathy map for Marcus W., 0321 Reconnaissance Marine, age 28"><figcaption>Marcus W., 0321 Recon. Cannot get specific, so it sounds vague and unimpressive.</figcaption></figure>
+    <figure><img loading="lazy" src="assets/empathy-5.png" alt="Empathy map for Jake S., 0372 Critical Skills Operator, age 32"><figcaption>Jake S., 0372 MARSOC. Over a decade of high-stakes work flattened into a few vague bullets.</figcaption></figure>
+  </div>
+
+  <h3>Key findings and conclusions</h3>
+  <ul>
+    <li><strong>The problem holds across the whole community.</strong> Every participant, regardless of MOS or seniority, struggled to translate their real responsibility into language civilians recognize.</li>
+    <li><strong>It does not get easier with experience.</strong> Senior special operators face classification on top of the same translation gap.</li>
+    <li><strong>A shared emotional thread:</strong> a feeling that military identity gets flattened or dismissed once the uniform comes off.</li>
+    <li><strong>Nobody had a real resource.</strong> Everyone relied on a generic TAP template, a relative, or guessing. None mapped their specific MOS to specific civilian titles or keywords.</li>
+    <li><strong>A distinct senior need:</strong> a way to describe high-level leadership and technical skill without disclosing specifics.</li>
+  </ul>
+</div></section>
+
+<!-- STAGE 2 -->
+<section id="stage2"><div class="wrap">
+  <div class="stage">Stage 2</div><h2>Define: State Your Users' Needs and Problem</h2>
+  <p class="sub">One persona and one business model, both built from what the five participants actually said.</p>
+  <h3>Persona</h3>
+  <p>I laid all five empathy maps side by side and looked for overlap in what participants said, thought, did, and felt. Dominic, Ethan, and Tyler, who separated within the last 4 to 14 months, formed the dominant cluster: early in transition, underemployed relative to their skill, and stuck on generic templates with no feedback. Marcus and Jake surfaced a secondary need, describing high-level experience without disclosing sensitive specifics. Rather than split that into a second persona, I folded it into this persona's needs and into the value proposition. Derek Monroe is a composite of their words, pains, and goals. He is not any single participant.</p>
+  <div class="persona">
+    <aside>
+      <p class="name">Derek Monroe</p><p>26 · Jacksonville, NC</p>
+      <h4>Military</h4><p>0331 Machine Gunner, USMC Infantry Battalion, Corporal (E-4), 2 deployments, 5 years active</p>
+      <h4>Since separation</h4><p>9 months</p>
+      <h4>Education</h4><p>High school diploma, military training, a few CLEP credits</p>
+      <h4>Status</h4><p>Single, no dependents. Working a warehouse job out of necessity while job searching.</p>
+      <h4>Tech</h4><p>Phone-first. LinkedIn and Indeed between shifts. Veteran subreddits and Facebook groups for advice.</p>
+    </aside>
+    <main>
+      <p class="quote">"I don't want a job that just hires veterans. I want a job that needs what I actually did."</p>
+      <h4>Bio</h4><p>Derek led a machine gun team through two deployments, responsible for the safety, readiness, and performance of three to five Marines and hundreds of thousands of dollars of equipment. Nine months out, he has applied to dozens of jobs with almost no response. He knows he has real leadership and technical experience. He cannot find the words that make a hiring manager or an ATS see it.</p>
+      <div class="grid2"><div><h4>Goals</h4><ul><li>Get his resume past the first ATS scan and in front of a person</li><li>Find a civilian title and industry that fits, not just the first thing that will hire him</li><li>Stop downplaying the intensity of his role</li><li>Explain his experience in interviews in a way that lands</li></ul></div>
+      <div><h4>Frustrations</h4><ul><li>Jargon like "machine gunner" or "fire team leader" means nothing to civilians</li><li>No resource maps his MOS to civilian titles or keywords</li><li>Generic TAP templates and family advice miss his background</li><li>Applying into a void with no feedback</li></ul></div></div>
+      <h4>Needs</h4><ul><li>A tool that takes MOS, rank, and duties and outputs language civilians recognize</li><li>Confidence the translation is accurate and credible, not keyword stuffing</li><li>Something built around his specific experience, not a one-size-fits-all template</li></ul>
+    </main>
+  </div>
+
+  <h3>Business model canvas</h3>
+  <figure><img loading="lazy" src="assets/business-model-canvas.png" alt="Business Model Canvas for MOS Skills Translator showing partners, activities, resources, value propositions, relationships, channels, segments, costs, and revenue"><figcaption>Built around a translation tool that also builds confidence, not just output.</figcaption></figure>
+
+  <h3>Key findings and conclusions</h3>
+  <ul>
+    <li>The persona centers on the early career, high skill veteran because that is where the sample skewed and where the problem is most acute and most directly addressable without classification constraints.</li>
+    <li>The senior and special operations nuance did not disappear. It was folded into the persona's needs and the value proposition as a secondary requirement.</li>
+    <li>The business has to run through trusted veteran institutions (TAP, VSOs, veteran communities) rather than app store discovery, because trust, not awareness, is the real bottleneck.</li>
+    <li>The core translation stays free at the point of need. Revenue comes from premium coaching and ATS scoring, and from B2B licensing, not from charging an underemployed veteran up front.</li>
+  </ul>
+</div></section>
+
+<!-- STAGE 3 -->
+<section id="stage3"><div class="wrap">
+  <div class="stage">Stage 3</div><h2>Ideate: Challenge Assumptions and Create Ideas</h2>
+  <p class="sub">Go wide first, then pressure test every idea against Derek.</p>
+  <h3>How I generated ideas</h3>
+  <p>Before generating anything I wrote Derek's core need at the top of the page so every idea had to answer to it: <em>get his experience understood by an ATS and a hiring manager without hiding or inflating what he did.</em> I then used two techniques back to back. A mind map came first to get wide and organize the problem space. Walt Disney's Creative Strategy came second to pressure test the ideas by forcing three separate mindsets, one at a time.</p>
+  <h4>Mind map</h4>
+  <p>The problem sits in the center, with branches for how experience gets in, what comes out, trust and credibility, sensitive roles, confidence and identity, reach and business, and ideas beyond the resume. Some branches came straight from Stage 1 findings. Others, like matching a pasted job posting, only appeared once I let the map run past the obvious features.</p>
+  <figure><img loading="lazy" src="assets/mindmap.png" alt="Mind map with the problem statement at the center and seven branches of ideas"><figcaption>Figure 1. Mind map of ideas for the MOS Skills Translator.</figcaption></figure>
+  <h4>Walt Disney Creative Strategy</h4>
+  <ul><li><strong>Dreamer:</strong> no limits. What would the perfect tool do for Derek? This produced ideas like auto-filling a career from a DD-214 and an AI mock interviewer.</li>
+  <li><strong>Realist:</strong> what version of each dream can actually be built and trusted? "Writes my whole resume" became a four-step guided wizard. The AI interviewer became a later version.</li>
+  <li><strong>Critic:</strong> try to break every idea. This round produced the key design rules: stay truthful, never ask for sensitive specifics, and show the reasoning so veterans trust the output.</li></ul>
+  <figure><img loading="lazy" src="assets/disney.png" alt="Three columns of sticky notes labeled Dreamer, Realist, and Critic"><figcaption>Figure 2. Dreamer, Realist, and Critic sticky notes.</figcaption></figure>
+
+  <h3>From ideas to a concept</h3>
+  <p>I sorted every idea by value to Derek, effort, and trust risk. Several ideas were great for Derek but too heavy or too risky for a first version, so I deferred them deliberately instead of cutting them.</p>
+  <div class="tw"><table><thead><tr><th>Idea</th><th>Helps Derek</th><th>Effort</th><th>Trust risk</th><th>Decision</th></tr></thead><tbody>
+  <tr><td>Guided wizard: MOS, duties, sensitivity</td><td>Very high</td><td>Low</td><td>Low</td><td>Build now</td></tr>
+  <tr><td>Duty chips plus numbers (people led, gear value)</td><td>Very high</td><td>Low</td><td>Low</td><td>Build now</td></tr>
+  <tr><td>Resume bullets from vet-written templates</td><td>Very high</td><td>Medium</td><td>Medium (must stay truthful)</td><td>Build now</td></tr>
+  <tr><td>"Why this works" on every line</td><td>High</td><td>Low</td><td>Reduces risk</td><td>Build now</td></tr>
+  <tr><td>Classification-safe language mode</td><td>High (senior and SOF)</td><td>Low</td><td>Reduces risk</td><td>Build now</td></tr>
+  <tr><td>Interview STAR cards</td><td>High</td><td>Medium</td><td>Low</td><td>Build now</td></tr>
+  <tr><td>Civilian job titles with match score</td><td>High</td><td>Medium</td><td>Medium</td><td>Build now</td></tr>
+  <tr><td>ATS keyword score</td><td>Medium</td><td>Low</td><td>Medium</td><td>Build now (simple)</td></tr>
+  <tr><td>Paste a job posting and match it</td><td>High</td><td>High</td><td>Medium</td><td>Later</td></tr>
+  <tr><td>DD-214 / VMET scan to auto-fill</td><td>Medium</td><td>High</td><td>High (privacy)</td><td>Later</td></tr>
+  <tr><td>AI mock interviewer</td><td>Medium</td><td>High</td><td>High (hallucination)</td><td>Later</td></tr>
+  <tr><td>Vet mentor review tier</td><td>Medium</td><td>High</td><td>Low</td><td>Later (premium)</td></tr>
+  </tbody></table></div>
+  <div class="callout"><strong>Selected concept.</strong> A phone-first app that walks a veteran through four short steps (MOS, duties, sensitivity, results) and returns resume bullets, STAR interview answers, matching civilian job titles, and an ATS keyword score. Every line is editable and explains why it was written that way. A classification-safe mode keeps language high-level for recon and special operations roles.</div>
+
+  <h3>Key findings and conclusions</h3>
+  <ul>
+    <li>The best ideas remove typing and blank-page anxiety. Derek applies from his phone between shifts, so tapping choices beats writing from scratch.</li>
+    <li>Trust is the feature. A translation that sounds inflated or generic fails the same way a TAP template does, so "Why this works" and full editability are core.</li>
+    <li>Sensitivity needed its own design answer: one toggle plus a warning, instead of a second app.</li>
+    <li>Scope discipline matters. Ideas that depend on document scanning or free-text generation carry the highest privacy and accuracy risk, so they wait until the core translation is proven in testing.</li>
+  </ul>
+</div></section>
+
+<!-- STAGE 4 -->
+<section id="stage4"><div class="wrap">
+  <div class="stage">Stage 4</div><h2>Prototype: Start to Create Solutions</h2>
+  <p class="sub">Sketch to settle the flow cheaply, then build something a user can actually tap.</p>
+
+  <h3>Low-fidelity sketches</h3>
+  <p>I sketched the six screens that carry the core task. Sketching first changed three decisions before any visual design existed: a dropdown became tappable MOS cards so there is no typing, saved progress moved onto the home screen so Derek can resume in one tap, and classification-safe language became an off-by-default toggle with a plain-language warning.</p>
+  <figure><img loading="lazy" src="assets/lowfi.png" alt="Six low-fidelity wireframe sketches: home, MOS, duties, sensitivity, resume results, interview and jobs results"><figcaption>Figure 3. Low-fidelity sketches of the six core screens, with design notes.</figcaption></figure>
+
+  <h3 id="prototype">High-fidelity interactive prototype</h3>
+  <p>The high-fidelity prototype is a working interactive build sized for a phone. A tester can choose an MOS and duties and see their own choices reflected in the output. It is the version I will put in front of users in Stage 5. Adobe XD is no longer being developed, and the assignment allows Figma or an equivalent interactive prototype.</p>
+  <div class="grid2" style="align-items:center">
+    <iframe class="phone" src="prototype/index.html" title="MOS Skills Translator interactive prototype" loading="lazy"></iframe>
+    <div>
+      <h4>Try it</h4>
+      <ol><li>Tap <strong>Start a new translation</strong>.</li><li>Choose an MOS and rank.</li><li>Tap the duties that apply. Try tapping <strong>Next</strong> with none selected to see the error message.</li><li>Turn on classification-safe language, then translate.</li><li>Explore the Resume, Interview, and Job titles tabs. Tap <strong>Why this works</strong>, edit a line, or remove one and undo.</li></ol>
+      <p><a class="btn" style="background:var(--navy);color:#fff" href="prototype/index.html" target="_blank" rel="noopener">Open full screen</a></p>
+    </div>
+  </div>
+  <h4>Screens</h4>
+  <div class="shots">
+    <figure><img loading="lazy" src="assets/proto_home.png" alt="Home screen with saved progress"><figcaption>Home with saved progress</figcaption></figure>
+    <figure><img loading="lazy" src="assets/proto_mos.png" alt="Step 1: choose MOS and rank"><figcaption>Step 1: MOS</figcaption></figure>
+    <figure><img loading="lazy" src="assets/proto_duties.png" alt="Step 2: choose duties"><figcaption>Step 2: duties</figcaption></figure>
+    <figure><img loading="lazy" src="assets/proto_safe.png" alt="Step 3: classification-safe toggle"><figcaption>Step 3: sensitivity</figcaption></figure>
+    <figure><img loading="lazy" src="assets/proto_results.png" alt="Results with ATS score and resume bullets"><figcaption>Results: resume</figcaption></figure>
+    <figure><img loading="lazy" src="assets/proto_why.png" alt="A resume line with Why this works expanded"><figcaption>"Why this works"</figcaption></figure>
+    <figure><img loading="lazy" src="assets/proto_interview.png" alt="STAR interview cards"><figcaption>Results: interview</figcaption></figure>
+    <figure><img loading="lazy" src="assets/proto_jobs.png" alt="Ranked civilian job titles"><figcaption>Results: job titles</figcaption></figure>
+    <figure><img loading="lazy" src="assets/proto_results-safe.png" alt="Results in classification-safe mode for a 0372"><figcaption>Classification-safe (0372)</figcaption></figure>
+    <figure><img loading="lazy" src="assets/proto_error.png" alt="Error message when no duty is selected"><figcaption>Error recovery</figcaption></figure>
+    <figure><img loading="lazy" src="assets/proto_help.png" alt="Plain-language help sheet"><figcaption>Help sheet</figcaption></figure>
+  </div>
+
+  <h3>The 10 usability heuristics</h3>
+  <p>Every one of Nielsen's 10 heuristics is applied somewhere in the prototype. The figure marks where on the screens, and the table explains how.</p>
+  <figure><img loading="lazy" src="assets/heuristics.png" alt="Three prototype screens annotated with numbered markers for each usability heuristic"><figcaption>Figure 4. Heuristics annotated on the prototype.</figcaption></figure>
+  <div class="tw"><table><thead><tr><th>Heuristic</th><th>How I applied it</th></tr></thead><tbody>
+  <tr><td>1. Visibility of system status</td><td>A four-segment progress bar with "Step X of 4", a loading skeleton while translating, a live ATS score ring, and a confirmation toast when copying.</td></tr>
+  <tr><td>2. Match between system and the real world</td><td>Duties are in Marine language ("Kept gear accountable") and every output line shows "From:" the original duty beside the civilian wording. The help sheet defines MOS and ATS.</td></tr>
+  <tr><td>3. User control and freedom</td><td>A back arrow on every screen, a 5-second Undo after removing a line, editable text, and a way back from results to edit duties.</td></tr>
+  <tr><td>4. Consistency and standards</td><td>The same header, stepper, bottom amber primary button, and chip and card styles on every screen. Tabs, toggles, and bottom sheets follow common mobile patterns.</td></tr>
+  <tr><td>5. Error prevention</td><td>Next is disabled until an MOS is chosen. The sensitivity screen warns never to type classified details, and classification-safe mode removes places, units, and methods before output is written.</td></tr>
+  <tr><td>6. Recognition rather than recall</td><td>MOS cards, rank chips, and duty chips replace recalling terms and typing. Earlier selections persist when navigating back.</td></tr>
+  <tr><td>7. Flexibility and efficiency of use</td><td>One-tap Continue for saved progress, Copy on one line or all lines, and every line editable for experienced users who want their own wording.</td></tr>
+  <tr><td>8. Aesthetic and minimalist design</td><td>One question per screen, a plain background, and a single highlighted action. Detail such as the reasoning behind a line stays hidden until asked for.</td></tr>
+  <tr><td>9. Help users recognize, diagnose, and recover from errors</td><td>Tapping Next with no duty selected shows a plain sentence in red: "Pick at least one duty so we have something to translate." A "Sounds off?" menu lets users flag lines that are too inflated, too vague, or worded wrong.</td></tr>
+  <tr><td>10. Help and documentation</td><td>A "?" button on every screen opens a short plain-language sheet, and "Why this works" explains each line in context.</td></tr>
+  </tbody></table></div>
+
+  <h3>UX laws applied</h3>
+  <p>I applied seven laws deliberately. The first four shaped the main flow, and the last three shaped the results screen.</p>
+  <div class="tw"><table><thead><tr><th>Law</th><th>Principle</th><th>How I applied it</th></tr></thead><tbody>
+  <tr><td>Hick's Law</td><td>More choices increase decision time.</td><td>One decision per screen. MOS limited to a handful of cards, duties limited to six chips, and sensitivity a single toggle.</td></tr>
+  <tr><td>Fitts's Law</td><td>Large, close targets are faster to hit.</td><td>Every tappable item is at least 48 px tall. The primary button is full width and anchored at the bottom where a thumb rests.</td></tr>
+  <tr><td>Doherty Threshold</td><td>Feedback under about 400 ms keeps users engaged.</td><td>Taps respond instantly. A skeleton loading state covers the short translation wait so the app never feels frozen, and the full wait is under one second.</td></tr>
+  <tr><td>Zeigarnik Effect</td><td>People want to finish incomplete tasks.</td><td>The home screen shows a progress card ("Step 2 of 4") with Continue, and the segmented bar shows how close he is to done.</td></tr>
+  <tr><td>Miller's Law</td><td>Working memory holds about seven items.</td><td>Six duty chips, one idea per bullet card, and a short grouped keyword set.</td></tr>
+  <tr><td>Jacob's Law</td><td>Users prefer apps that work like ones they know.</td><td>Derek already uses LinkedIn and Indeed on his phone, so I used familiar patterns: tabs for results, chips for choices, bottom sheets for help, toggles for settings.</td></tr>
+  <tr><td>Von Restorff Effect</td><td>The item that differs is remembered.</td><td>The amber primary button and the dark ATS score card are the only high-contrast elements on their screens, so the next action and key result stand out.</td></tr>
+  </tbody></table></div>
+
+  <h3>Key findings and conclusions</h3>
+  <ul>
+    <li>Sketching first paid off. Three structural decisions were settled in minutes instead of being discovered after visual design.</li>
+    <li>"Why this works" and editable lines are what separate this from a generic template, and they appear on every translated line.</li>
+    <li>Classification-safe mode works as an output setting rather than a separate flow, which keeps the app simple for junior Marines and still serves recon and special operations users.</li>
+    <li>Quantification inputs (people led, gear value) change the output quality the most, because numbers make bullets read like real leadership experience.</li>
+  </ul>
+</div></section>
+
+<section id="next"><div class="wrap">
+  <div class="stage">Up next</div><h2>Stage 5: Test</h2>
+  <p>I will recruit five veterans to complete the same three tasks on the prototype: build a translation for their own MOS, remove and restore a line, and find a matching civilian job title. I will record time on task, errors, and a 1 to 5 trust rating of the output, then analyze it in Python (mean, standard deviation, and a graph, with a paired comparison if I test a second design variant). The prototype is already structured so those measures can be compared across participants.</p>
+</div></section>
+</main>
+
+<footer><div class="wrap">Connor Yetter · CSCI 443 UX Design Thinking · Fall 2026<br>
+Downloads: <a href="docs/Stage3_Ideate.docx">Stage 3 write-up (.docx)</a> · <a href="docs/Stage4_Prototype.docx">Stage 4 write-up (.docx)</a></div></footer>
+</body>
+</html>
